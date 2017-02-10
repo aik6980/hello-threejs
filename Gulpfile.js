@@ -16,20 +16,18 @@ var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 
 // typescript project for game
-var ts_project_game 		= ts.createProject("tsconfig.game.json");
-var ts_project_game_output 	= 'game.js';
-var ts_project_controller 	= ts.createProject("tsconfig.controller.json");
-var ts_project_controller_output = 'controller.js';
+var ts_project_game 		= ts.createProject("tsconfig.main_game.json");
+var ts_project_game_output 	= 'main_game.js';
 
 gulp.task("default", ['typescript', 'sass']);
 
 gulp.task("dev", ['default'], function () {
-    gulp.watch('assets/js/**/*.*', ['typescript']);
-    gulp.watch('assets/sass/**/*.*', ['sass']);
+    gulp.watch('client/js/**/*.*', ['typescript']);
+    gulp.watch('client/sass/**/*.*', ['sass']);
 });
 
 gulp.task('sass', function () {
-    return gulp.src('assets/sass/**/*.scss')
+    return gulp.src('client/sass/**/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('public/css'));
 });
@@ -37,8 +35,8 @@ gulp.task('sass', function () {
 gulp.task("typescript", ['typescript_convert', 'js_move']);
 
 gulp.task("js_move", function () {
-    return gulp.src("assets/js/vendor/**/*.js")
-        .pipe(gulp.dest("public/js/vendor"));
+    return gulp.src("client/js/libs/**/*.js")
+        .pipe(gulp.dest("public/js/libs"));
 });
 
 gulp.task("typescript_convert", function () {
@@ -50,11 +48,5 @@ gulp.task("typescript_convert", function () {
 							.pipe(sourcemaps.write( ".", { sourceRoot : "../.."} )) // supply sourceRoot so we can use sourcemaps in VSCode debugger
 							.pipe(gulp.dest(output_folder));
 							
-	var ts_result_controller = ts_project_controller.src()
-							.pipe(sourcemaps.init())
-							.pipe(ts_project_controller())
-							.pipe(concat(ts_project_controller_output))
-							.pipe(sourcemaps.write( ".", { sourceRoot : "../.."} )) // supply sourceRoot so we can use sourcemaps in VSCode debugger
-							.pipe(gulp.dest(output_folder));
-    return ts_result_game && ts_result_controller;
+    return ts_result_game;
 });
