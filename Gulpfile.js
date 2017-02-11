@@ -16,18 +16,18 @@ var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 
 // typescript project for game
-var ts_project_game 		= ts.createProject("tsconfig.main_game.json");
-var ts_project_game_output 	= 'main_game.js';
+var ts_project_game 		= ts.createProject("tsconfig.game.json");
+var ts_project_game_output 	= 'game.js';
 
 gulp.task("default", ['typescript', 'sass']);
 
 gulp.task("dev", ['default'], function () {
-    gulp.watch('client/js/**/*.*', ['typescript']);
-    gulp.watch('client/sass/**/*.*', ['sass']);
+    gulp.watch('src/js/**/*.*', ['typescript']);
+    gulp.watch('src/sass/**/*.*', ['sass']);
 });
 
 gulp.task('sass', function () {
-    return gulp.src('client/sass/**/*.scss')
+    return gulp.src('src/sass/**/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('public/css'));
 });
@@ -35,7 +35,7 @@ gulp.task('sass', function () {
 gulp.task("typescript", ['typescript_convert', 'js_move']);
 
 gulp.task("js_move", function () {
-    return gulp.src("client/js/libs/**/*.js")
+    return gulp.src("src/js/libs/**/*.js")
         .pipe(gulp.dest("public/js/libs"));
 });
 
