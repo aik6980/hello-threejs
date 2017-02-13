@@ -2,6 +2,14 @@
 
 ## nodejs skeleton
 
+### building app
+using gulp as a build system
+```
+gulp build_server => gulp tasks for app.js
+gulp build_client => gulp tasks for public/js/game.js
+```
+HTML pages are dynamically generated using `jade`
+
 ### using typings
 - Typings is a typescript package manager, it is worth installing `globally` through `npm` using following command  
 ```
