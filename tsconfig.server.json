@@ -1,6 +1,6 @@
 {
   "files": [
-    "src/js/client/game.ts"
+    "src/js/server/app.ts"
   ],
   "compilerOptions": {
     "noImplicitAny": true,
@@ -8,7 +8,6 @@
   },
   "include": [
 	"src/js/typings/index.d.ts",
-	"src/js/shared/**/*",
-	"src/js/client/**/*"
+	"src/js/server/**/*"
   ]
 }

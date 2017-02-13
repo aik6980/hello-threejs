@@ -19,10 +19,10 @@ var sass = require('gulp-sass');
 var ts_project_game 		= ts.createProject("tsconfig.game.json");
 var ts_project_game_output 	= 'game.js';
 
-gulp.task("default", ['typescript', 'sass']);
+gulp.task("default", ['build_client', 'sass']);
 
 gulp.task("dev", ['default'], function () {
-    gulp.watch('src/js/**/*.*', ['typescript']);
+    gulp.watch('src/js/client/**/*.*', ['build_client']);
     gulp.watch('src/sass/**/*.*', ['sass']);
 });
 
@@ -30,13 +30,6 @@ gulp.task('sass', function () {
     return gulp.src('src/sass/**/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('public/css'));
-});
-
-gulp.task("typescript", ['typescript_convert', 'js_move']);
-
-gulp.task("js_move", function () {
-    return gulp.src("src/js/libs/**/*.js")
-        .pipe(gulp.dest("public/js/libs"));
 });
 
 gulp.task("typescript_convert", function () {
@@ -50,3 +43,40 @@ gulp.task("typescript_convert", function () {
 							
     return ts_result_game;
 });
+
+
+function ts_process( ts_project, output_path, output_filename, srcmaps_sourceroot ) {
+	
+	var result 	= ts_project.src()
+				.pipe(sourcemaps.init())
+				.pipe(ts_project())
+				.pipe(concat(output_filename))
+				.pipe(sourcemaps.write( ".", { sourceRoot : srcmaps_sourceroot } )) // supply sourceRoot so we can use sourcemaps in VSCode debugger
+				.pipe(gulp.dest(output_path));
+				
+    return result;
+}
+
+{
+	var ts_project = ts.createProject("tsconfig.server.json");
+	var ts_project_params = [ ".", "app.js", "."];
+
+	gulp.task("build_server", function() {
+		ts_process( ts_project, ts_project_params[0], ts_project_params[1], ts_project_params[2] ) 
+	});	
+}
+
+gulp.task("build_client", ['client_ts', 'client_js_move']);
+{
+	var ts_project = ts.createProject("tsconfig.game.json");
+	var ts_project_params = [ "public/js", "game.js", "../.."];
+
+	gulp.task("client_ts", function() {
+		ts_process( ts_project, ts_project_params[0], ts_project_params[1], ts_project_params[2] ) 
+	});
+	
+	gulp.task("client_js_move", function () {
+		return gulp.src("src/js/client/libs/**/*.js")
+			.pipe(gulp.dest("public/js/libs"));
+	});
+}
