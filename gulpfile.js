@@ -61,7 +61,9 @@ gulp.task("build_client", ['client_ts', 'client_js_move']);
 	});
 	
 	gulp.task("client_js_move", function () {
-		return gulp.src("src/js/client/libs/**/*.js")
+		var result = gulp.src("src/js/client/libs/**/*.js")
 			.pipe(gulp.dest("public/js/libs"));
+		var result = gulp.src("src/js/client/shaders/**/*.glsl")
+			.pipe(gulp.dest("public/js/shaders"));
 	});
 }

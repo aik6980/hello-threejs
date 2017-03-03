@@ -4,6 +4,15 @@ var camera : THREE.PerspectiveCamera;
 var renderer : THREE.WebGLRenderer;
 
 function init() {
+
+    // test loading file
+    var loader = new THREE.FileLoader();
+    loader.setPath("public/js/shaders/");
+    loader.load("gbuffer.vs.glsl", 
+        function( data : string ){
+            console.log(data);
+        });
+
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
