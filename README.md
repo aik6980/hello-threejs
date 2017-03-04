@@ -37,8 +37,7 @@ typings install --global --save dt~jquery
 - WEBGL shader is basically a text string. It can be embeded using tags, like `<script type="x-shader/x-fragment">` or load from files
 - using THREE file loader (ajax wrapper), https://threejs.org/docs/api/loaders/FileLoader.html
 - shader loader js from github, https://github.com/codecruzer/webgl-shader-loader-js
-- http://www.pheelicks.com/2014/02/working-better-with-glsl-source-files/
-- 
+- http://www.pheelicks.com/2014/02/working-better-with-glsl-source-files/ 
 
 ### introduction
 official guide  
