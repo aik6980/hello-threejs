@@ -15,7 +15,7 @@ var sourcemaps = require("gulp-sourcemaps");
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 
-gulp.task("default", ['build_client', 'sass']);
+gulp.task("default", ["build_server", 'build_client', 'sass']);
 
 gulp.task("dev", ['default'], function () {
     gulp.watch('src/js/client/**/*.*', ['build_client']);
