@@ -20,11 +20,17 @@ function init() {
             function( data : string ){
                 ps_str = data;
 
-                var box_geom = new THREE.BoxGeometry(1,1,1);
-                var material = new THREE.ShaderMaterial({ 
+                var uniforms = {
+                    t_albedo : { type: "t", value: THREE.ImageUtils.loadTexture("public/js/shaders/checker.jpg") }
+                };
+
+                var material = new THREE.ShaderMaterial({
+                    uniforms : uniforms, 
                     vertexShader : vs_str,
                     fragmentShader : ps_str  
                 });
+
+                var box_geom = new THREE.BoxGeometry(1,1,1);
                 var box = new THREE.Mesh(box_geom, material);
                 box.position.y = 2.25;
                 scene.add(box);

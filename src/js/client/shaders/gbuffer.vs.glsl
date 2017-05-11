@@ -1,8 +1,6 @@
-//#extension GL_EXT_draw_buffers : require
-
 // camera
-varying vec3 o_normal;
-varying vec2 o_uv;
+varying vec3 v_normal;
+varying vec2 v_uv;
 
 void main()
 {
@@ -11,6 +9,6 @@ void main()
     vec3 normal_world = normalMatrix * normal;
      
     gl_Position = projectionMatrix * pos_view;
-    o_uv = uv;
-    o_normal = normal_world;
+    v_uv = uv;
+    v_normal = normal_world;
 }
