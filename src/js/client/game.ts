@@ -5,15 +5,32 @@ var renderer : THREE.WebGLRenderer;
 
 function init() {
 
+    scene = new THREE.Scene();
+
+    var vs_str : string;
+    var ps_str : string;
     // test loading file
     var loader = new THREE.FileLoader();
     loader.setPath("public/js/shaders/");
     loader.load("gbuffer.vs.glsl", 
         function( data : string ){
-            console.log(data);
+            // console.log(data);
+            vs_str = data;
+            loader.load("gbuffer.ps.glsl", 
+            function( data : string ){
+                ps_str = data;
+
+                var box_geom = new THREE.BoxGeometry(1,1,1);
+                var material = new THREE.ShaderMaterial({ 
+                    vertexShader : vs_str,
+                    fragmentShader : ps_str  
+                });
+                var box = new THREE.Mesh(box_geom, material);
+                box.position.y = 2.25;
+                scene.add(box);
+            }); 
         });
 
-    scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
     renderer = new THREE.WebGLRenderer();
@@ -31,8 +48,8 @@ function init() {
 }
 
 function render() {
-    requestAnimationFrame(render);
 
+    requestAnimationFrame(render);
     renderer.render(scene, camera);
 }
 
