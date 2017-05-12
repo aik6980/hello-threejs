@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
+    "es6-promise": "registry:dt/es6-promise#0.0.0+20160726191732",
     "jquery": "registry:dt/jquery#1.10.0+20170123093700",
     "node": "registry:dt/node#7.0.0+20170204020307",
     "three": "registry:dt/three#0.83.0+20170208025302"

@@ -12,6 +12,7 @@ function init() {
     // test loading file
     var loader = new THREE.FileLoader();
     loader.setPath("public/js/shaders/");
+    /*
     loader.load("gbuffer.vs.glsl", 
         function( data : string ){
             // console.log(data);
@@ -36,6 +37,32 @@ function init() {
                 scene.add(box);
             }); 
         });
+    */
+
+    var loaded_vs : Promise<string> = new Promise( function(resolve, reject) {
+        loader.load("gbuffer.vs.glsl", function( data : string ){ resolve(data); });
+    });
+    var loaded_ps : Promise<string> = new Promise( function(resolve, reject) {
+        loader.load("gbuffer.ps.glsl", function( data : string ){ resolve(data); });
+    });
+
+    Promise.all( [loaded_vs, loaded_ps] ).then(function(values : Array<string> ){ 
+        //console.log(values);
+        var uniforms = {
+            t_albedo : { type: "t", value: THREE.ImageUtils.loadTexture("public/js/shaders/checker.jpg") }
+        };
+
+        var material = new THREE.ShaderMaterial({
+            uniforms : uniforms, 
+            vertexShader : values[0],
+            fragmentShader : values[1]  
+        });
+
+        var box_geom = new THREE.BoxGeometry(1,1,1);
+        var box = new THREE.Mesh(box_geom, material);
+        box.position.y = 2.25;
+        scene.add(box);
+    });
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
