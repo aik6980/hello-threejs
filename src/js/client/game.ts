@@ -3,6 +3,9 @@ var scene : THREE.Scene;
 var camera : THREE.PerspectiveCamera;
 var renderer : THREE.WebGLRenderer;
 
+// scene object
+var object_group : THREE.Object3D;
+
 function init_renderwindow(){
     // render context
     renderer = new THREE.WebGLRenderer();
@@ -12,14 +15,40 @@ function init_renderwindow(){
     scene = new THREE.Scene();
     // main camera
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    camera.position.z = 5;
+    camera.position.z = 400;
 
     document.body.appendChild( renderer.domElement );
 }
 
 function init_scene() {
     var geom = new THREE.SphereGeometry(1, 4, 4);
-    var material = 
+    var material = new THREE.MeshPhongMaterial(
+        {
+            color: 0xffffff,
+            shading: THREE.FlatShading,
+        }
+    )
+
+    object_group = new THREE.Object3D();
+    scene.add(object_group);
+
+    for(var i=0; i<100; ++i)
+    {
+        var mesh = new THREE.Mesh( geom, material);
+        mesh.position.set( THREE.Math.randFloatSpread(1.0), THREE.Math.randFloatSpread(1.0), THREE.Math.randFloatSpread(1.0));
+        mesh.position.multiplyScalar( Math.random() * 400 );
+        mesh.rotation.set( THREE.Math.randFloatSpread(Math.PI), THREE.Math.randFloatSpread(Math.PI), THREE.Math.randFloatSpread(Math.PI));
+        mesh.scale.multiplyScalar(Math.random() * 50);
+        object_group.add(mesh);
+    }
+
+    // lighting
+    var ambient_light = new THREE.AmbientLight(0x222222);
+    scene.add(ambient_light);
+
+    var light = new THREE.DirectionalLight(0xffffff);
+    light.position.set(1,1,1);
+    scene.add(light);
 }
 
 function init() {
@@ -62,11 +91,15 @@ function init() {
     var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 });
     var box = new THREE.Mesh(box_geom, material);
     scene.add(box);
+
+    init_scene();
 }
 
 function render() {
-
     requestAnimationFrame(render);
+    // update
+    object_group.rotation.y += 0.005;
+    // render
     renderer.render(scene, camera);
 }
 
