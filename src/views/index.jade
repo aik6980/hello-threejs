@@ -3,4 +3,18 @@ include includes/base
 h3 Game name = #{game_name}
 
 div#container
+
+script(src="public/js/libs/threejs/shaders/CopyShader.js")
+script(src="public/js/libs/threejs/shaders/LuminosityShader.js")
+script(src="public/js/libs/threejs/shaders/ConvolutionShader.js")
+script(src="public/js/libs/threejs/shaders/ToneMapShader.js")
+script(src="public/js/libs/threejs/shaders/GammaCorrectionShader.js")
+
+script(src="public/js/libs/threejs/postprocessing/EffectComposer.js")
+script(src="public/js/libs/threejs/postprocessing/RenderPass.js")
+script(src="public/js/libs/threejs/postprocessing/MaskPass.js")
+script(src="public/js/libs/threejs/postprocessing/ShaderPass.js")
+script(src="public/js/libs/threejs/postprocessing/BloomPass.js")
+script(src="public/js/libs/threejs/postprocessing/AdaptiveToneMappingPass.js")
+
 script(src="public/js/game.js")
